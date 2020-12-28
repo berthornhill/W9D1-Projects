@@ -92,30 +92,41 @@ class Cat {
 //   // or more briefly:
 //   sumThree.curry(3)(4)(20)(6); // == 30
 
-function addNums() {
+
+  
+function addNums(numArgs) {
     
     const nums = [];
-    debugger
-    function _curriedSum(numArgs) {
-        nums.push(numArgs);
-            console.log(nums.reduce( function accumulator( acc, el) {
+    // debugger
+    function _curriedSum(num) {
+        nums.push(num);
+        if (numArgs === nums.length) {
+            return (nums.reduce( function accumulator( acc, el) {
                return acc + el 
-            }))
-            return _curriedSum;
+            }))} else {
+            return _curriedSum
+            }
          }
     return _curriedSum
 }
 
 
-function continuousAdd() {
-   
-    const args = []; 
-    function _curriedAdd(num){
-      // debugger
-      args.push(num);
-      // console.log(args)
-      console.log(args.reduce( ( acc,el ) => acc + el ));
-      return _curriedAdd //only to allow for for chaining invocations
-    }
-    return _curriedAdd
+function sumThree(num1, num2, num3) {
+    return num1 + num2 + num3;
   }
+
+
+Function.prototype.curry = function(numArgs) {
+    const args = [];
+    const func = this;
+    // debugger
+    function _curriedFunc(arg) {
+        args.push(arg);
+        if (numArgs === args.length) {
+            return func(...args);
+        } else {
+            return _curriedFunc;
+            }
+        };
+    return _curriedFunc;
+}
